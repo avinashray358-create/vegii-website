@@ -1,153 +1,365 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vegii - The Vegetable Company</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vegii — The Vegetable Company</title>
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5fff5;
+    :root{
+      --bg:#f6fbf6;
+      --card:#ffffff;
+      --accent:#2a9d40;
+      --muted:#6b7280;
+      --shadow: 0 6px 18px rgba(38,39,41,0.06);
+      --radius:16px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     }
-    header {
-      background: #2ecc71;
-      color: white;
-      padding: 15px;
-      text-align: center;
-      font-size: 24px;
-      font-weight: bold;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#f9fff9 0%,var(--bg) 100%);
+      color:#0f172a;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      padding: 20px;
+
+    /* Header */
+    header{
+      padding:20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      max-width:1200px;
+      margin:18px auto;
     }
-    .card {
-      background: white;
-      padding: 15px;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      color:inherit;
     }
-    .card h3 {
-      margin: 10px 0;
+    .logo{
+      width:64px;height:64px;border-radius:12px;
+      display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,#97eaa3,#2a9d40);
+      color:white;font-weight:700;font-size:22px;box-shadow:var(--shadow);
     }
-    .card button {
-      background: #27ae60;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: 0.3s;
+    .brand h1{margin:0;font-size:20px;line-height:1}
+    .brand p{margin:0;color:var(--muted);font-size:13px}
+
+    /* Nav / contact */
+    .contact {
+      text-align:right;
     }
-    .card button:hover {
-      background: #219150;
+    .contact a{display:inline-block;text-decoration:none;color:var(--accent);font-weight:600}
+    .hero{
+      max-width:1200px;margin:0 auto;background:transparent;padding:20px;
+      display:grid;grid-template-columns:1fr;gap:18px;
     }
-    /* Order Popup */
-    .popup {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      justify-content: center;
-      align-items: center;
+    .hero-card{
+      background:var(--card);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);display:flex;gap:18px;align-items:center;
+      flex-wrap:wrap;
     }
-    .popup-content {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      width: 300px;
-      text-align: center;
-      position: relative;
+    .hero-left{flex:1;min-width:220px}
+    .hero-right{width:220px;min-width:180px;text-align:center}
+    .hero h2{margin:0;font-size:26px}
+    .hero p{color:var(--muted);margin-top:8px}
+
+    .btn{
+      display:inline-block;padding:10px 14px;border-radius:12px;background:var(--accent);color:white;text-decoration:none;font-weight:700;
+      box-shadow:0 6px 16px rgba(42,157,64,0.18);
     }
-    .popup-content h2 {
-      margin-bottom: 15px;
+
+    /* Search + filters */
+    .controls{
+      max-width:1200px;margin:18px auto;display:flex;gap:12px;flex-wrap:wrap;padding:0 12px;
     }
-    .popup-content input, .popup-content textarea {
-      width: 100%;
-      padding: 8px;
-      margin: 8px 0;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+    .search{
+      flex:1;min-width:220px;
     }
-    .close-btn {
-      position: absolute;
-      top: 10px; right: 15px;
-      font-size: 20px;
-      cursor: pointer;
-      color: red;
+    input[type="search"], select{
+      width:100%;padding:12px 14px;border-radius:12px;border:1px solid #e6eef0;box-shadow:inset 0 1px 0 rgba(255,255,255,0.6);
+      font-size:15px;
     }
-    footer {
-      background: #2ecc71;
-      color: white;
-      text-align: center;
-      padding: 10px;
-      margin-top: 20px;
+
+    /* Products grid */
+    .grid{
+      max-width:1200px;margin:8px auto 60px auto;padding:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;
+    }
+    .card{
+      background:var(--card);border-radius:14px;padding:14px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;
+    }
+    .veg-emoji{
+      font-size:34px;width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:#f1fbf1;
+    }
+    .card h3{margin:0;font-size:16px}
+    .card p{margin:0;color:var(--muted);font-size:13px}
+    .price{font-weight:800;color:#0f5132}
+    .card .actions{margin-top:8px;display:flex;gap:8px}
+    .outline{
+      border:1px solid #e6eef0;padding:8px 10px;border-radius:10px;text-decoration:none;color:var(--muted);font-weight:700;background:transparent;
+    }
+    .primary{background:var(--accent);color:white;padding:8px 10px;border-radius:10px;text-decoration:none;font-weight:700}
+
+    /* Footer / contact */
+    footer{max-width:1200px;margin:30px auto;padding:18px;border-radius:12px;background:linear-gradient(180deg,#fff 0%,#fbfffb 100%);box-shadow:var(--shadow)}
+    .footer-grid{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start;justify-content:space-between}
+    .footer-item{min-width:200px}
+    .small{font-size:13px;color:var(--muted)}
+
+    /* Responsive tweaks */
+    @media (max-width:720px){
+      .hero-card{flex-direction:column;align-items:flex-start}
+      header{padding:12px}
+    }
+
+    /* Tiny cart badge */
+    .cart{
+      position:relative;display:inline-block;
+    }
+    .cart .badge{
+      position:absolute;top:-8px;right:-8px;background:#ff4d4f;color:white;border-radius:999px;padding:4px 7px;font-size:12px;font-weight:800;
     }
   </style>
 </head>
 <body>
 
-<header>🥦 Vegii - The Vegetable Company</header>
+  <!-- Header -->
+  <header>
+    <a class="brand" href="#">
+      <div class="logo">VG</div>
+      <div>
+        <h1>Vegii <span style="color:var(--muted);font-weight:600;font-size:14px;display:block">The Vegetable Company</span></h1>
+        <p class="small">Fresh | Local | Affordable — Sasaram, Bihar</p>
+      </div>
+    </a>
 
-<div class="products">
-  <div class="card">
-    <h3>Tomato 🍅</h3>
-    <p>₹40 / kg</p>
-    <button onclick="openOrder('Tomato')">Order Now</button>
-  </div>
-  <div class="card">
-    <h3>Potato 🥔</h3>
-    <p>₹30 / kg</p>
-    <button onclick="openOrder('Potato')">Order Now</button>
-  </div>
-  <div class="card">
-    <h3>Onion 🧅</h3>
-    <p>₹35 / kg</p>
-    <button onclick="openOrder('Onion')">Order Now</button>
-  </div>
-  <div class="card">
-    <h3>Carrot 🥕</h3>
-    <p>₹50 / kg</p>
-    <button onclick="openOrder('Carrot')">Order Now</button>
-  </div>
-</div>
+    <div class="contact">
+      <div class="small">Call / WhatsApp</div>
+      <a href="tel:+919939337868">+91 99393 37868</a>
+      <div style="margin-top:6px">
+        <a class="btn" href="#products">Shop Vegetables</a>
+      </div>
+    </div>
+  </header>
 
-<!-- Order Popup -->
-<div class="popup" id="orderPopup">
-  <div class="popup-content">
-    <span class="close-btn" onclick="closeOrder()">&times;</span>
-    <h2>Place Your Order</h2>
-    <form id="orderForm" onsubmit="submitOrder(event)">
-      <input type="text" id="productName" readonly>
-      <input type="text" placeholder="Your Name" required>
-      <input type="tel" placeholder="Phone Number" required>
-      <textarea placeholder="Delivery Address" required></textarea>
-      <button type="submit">Submit Order</button>
-    </form>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-card">
+      <div class="hero-left">
+        <h2>Fresh vegetables — seedha khet se ghar tak</h2>
+        <p>Vegii laata hai taja sabziyaan local farmers se. Bulk orders, weekly subscriptions, aur party/restaurant supply available.</p>
+        <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+          <a class="btn" href="#contact">Contact Seller</a>
+          <a class="outline" href="#products">Dekho Products</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div style="font-size:50px">🥬</div>
+        <div class="small" style="margin-top:8px">Free delivery in Sasaram for orders ₹300+.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Controls -->
+  <div class="controls">
+    <div class="search">
+      <input id="search" type="search" placeholder="Search vegetables (e.g., Tomato, Spinach...)" />
+    </div>
+    <div style="width:220px">
+      <select id="category">
+        <option value="">All categories</option>
+        <option value="leafy">Leafy</option>
+        <option value="root">Root</option>
+        <option value="fruit">Fruit Veg</option>
+        <option value="bulb">Bulb / Allium</option>
+      </select>
+    </div>
+    <div style="width:180px">
+      <select id="sort">
+        <option value="popular">Sort: Popular</option>
+        <option value="price-asc">Price ↑</option>
+        <option value="price-desc">Price ↓</option>
+      </select>
+    </div>
+    <div style="width:120px">
+      <div class="cart" title="Cart">
+        <a class="outline" href="#cart">Cart</a>
+        <div id="cartCount" class="badge" style="display:none">0</div>
+      </div>
+    </div>
   </div>
-</div>
 
-<footer>© 2025 Vegii - The Vegetable Company | All rights reserved</footer>
+  <!-- Products Grid -->
+  <main id="products" class="grid" aria-live="polite">
+    <!-- JS will populate product cards here -->
+  </main>
 
-<script>
-  function openOrder(product) {
-    document.getElementById("orderPopup").style.display = "flex";
-    document.getElementById("productName").value = product;
-  }
-  function closeOrder() {
-    document.getElementById("orderPopup").style.display = "none";
-  }
-  function submitOrder(e) {
-    e.preventDefault();
-    alert("✅ Thank you! Your order has been placed successfully.");
-    closeOrder();
-  }
-</script>
+  <!-- Footer / Contact -->
+  <footer id="contact">
+    <div class="footer-grid">
+      <div class="footer-item">
+        <h3>Vegii — The Vegetable Company</h3>
+        <p class="small">Fresh vegetables sourced from local farmers around Sasaram, Bihar. We supply households, shops and restaurants.</p>
+        <p style="margin-top:8px"><strong>Phone:</strong> <a href="tel:+919939337868">+91 99393 37868</a></p>
+        <p><strong>Location:</strong> Sasaram, Rohtas, Bihar, India</p>
+      </div>
 
+      <div class="footer-item">
+        <h4>Quick links</h4>
+        <p class="small"><a href="#products">Products</a> · <a href="#contact">Contact Us</a> · <a href="#">Orders &amp; Delivery</a></p>
+      </div>
+
+      <div class="footer-item">
+        <h4>Send a message</h4>
+        <form id="messageForm" onsubmit="return false" style="display:flex;flex-direction:column;gap:8px;min-width:220px;">
+          <input id="name" placeholder="Your name" required style="padding:10px;border-radius:10px;border:1px solid #e6eef0" />
+          <input id="phone" placeholder="Phone (optional)" style="padding:10px;border-radius:10px;border:1px solid #e6eef0" />
+          <textarea id="msg" rows="3" placeholder="Message..." style="padding:10px;border-radius:10px;border:1px solid #e6eef0"></textarea>
+          <button onclick="fakeSend()" class="primary">Send</button>
+        </form>
+        <div id="sentToast" style="display:none;margin-top:8px;color:green;font-weight:700">Message ready! We'll call you back soon.</div>
+      </div>
+    </div>
+    <div style="margin-top:16px;text-align:center;color:var(--muted);font-size:13px">© <span id="year"></span> Vegii — All rights reserved</div>
+  </footer>
+
+  <script>
+    // Product data - tum isko edit kar sakte ho
+    const products = [
+      {id:1,name:"Tomato",cat:"fruit",price:35,unit:"kg",emoji:"🍅",desc:"Ripe, juicy tomatoes"},
+      {id:2,name:"Potato",cat:"root",price:28,unit:"kg",emoji:"🥔",desc:"Starchy potatoes — great for every dish"},
+      {id:3,name:"Onion",cat:"bulb",price:40,unit:"kg",emoji:"🧅",desc:"Fresh onions, pungent and crisp"},
+      {id:4,name:"Spinach (Palak)",cat:"leafy",price:22,unit:"bunch",emoji:"🥬",desc:"Tender green leaves"},
+      {id:5,name:"Cabbage",cat:"leafy",price:30,unit:"pc",emoji:"🥬",desc:"Crunchy cabbage heads"},
+      {id:6,name:"Carrot",cat:"root",price:50,unit:"kg",emoji:"🥕",desc:"Sweet orange carrots"},
+      {id:7,name:"Brinjal (Baingan)",cat:"fruit",price:36,unit:"kg",emoji:"🍆",desc:"Locally grown brinjals"},
+      {id:8,name:"Green Chilli",cat:"fruit",price:120,unit:"kg",emoji:"🌶️",desc:"Spicy green chillies"},
+      {id:9,name:"Garlic",cat:"bulb",price:280,unit:"kg",emoji:"🧄",desc:"Aromatic garlic bulbs"},
+      {id:10,name:"Cauliflower",cat:"leafy",price:55,unit:"pc",emoji:"🥦",desc:"Fresh cauliflower heads"},
+      {id:11,name:"Coriander (Dhaniya)",cat:"leafy",price:15,unit:"bunch",emoji:"🌿",desc:"Fragrant coriander"},
+      {id:12,name:"Cucumber",cat:"fruit",price:28,unit:"kg",emoji:"🥒",desc:"Crisp cucumbers"},
+      {id:13,name:"Bottle Gourd (Lauki)",cat:"fruit",price:30,unit:"kg",emoji:"🫑",desc:"Soft, watery lauki"},
+      {id:14,name:"Ridge Gourd (Tori)",cat:"fruit",price:40,unit:"kg",emoji:"🥒",desc:"Popular seasonal vegetable"},
+      {id:15,name:"Beetroot",cat:"root",price:45,unit:"kg",emoji:"🟣",desc:"Sweet and healthy beetroot"},
+      {id:16,name:"Fenugreek (Methi)",cat:"leafy",price:18,unit:"bunch",emoji:"🌿",desc:"Bitter-savory methi leaves"},
+      {id:17,name:"Ginger",cat:"root",price:220,unit:"kg",emoji:"🫚",desc:"Fresh ginger roots"},
+      {id:18,name:"Peas (Matar)",cat:"fruit",price:90,unit:"kg",emoji:"🌱",desc:"Sweet green peas"},
+      {id:19,name:"Sweet Corn",cat:"fruit",price:70,unit:"kg",emoji:"🌽",desc:"Tender sweet corn"},
+      {id:20,name:"Bottle Capsicum",cat:"fruit",price:120,unit:"kg",emoji:"🫑",desc:"Colorful capsicums"}
+    ];
+
+    // Simple cart (in-memory)
+    const cart = {};
+
+    // Utilities
+    function el(tag, attrs={}, children=""){
+      const e = document.createElement(tag);
+      for(const k in attrs){
+        if(k==="class") e.className = attrs[k];
+        else if(k==="html") e.innerHTML = attrs[k];
+        else e.setAttribute(k, attrs[k]);
+      }
+      if(children) e.append(children);
+      return e;
+    }
+
+    // Render products
+    const grid = document.getElementById('products');
+    function renderList(list){
+      grid.innerHTML = "";
+      if(list.length===0){
+        const empty = el('div',{class:"card", html:`<h3>No items found</h3><p class="small">Try different search or category.</p>`});
+        grid.appendChild(empty); return;
+      }
+      list.forEach(p => {
+        const card = el('div',{class:"card"});
+        const top = el('div',{style:"display:flex;align-items:center;gap:12px"});
+        const e = el('div',{class:"veg-emoji"}, p.emoji);
+        top.appendChild(e);
+        const meta = el('div');
+        meta.appendChild(el('h3',{html:p.name}));
+        meta.appendChild(el('p',{class:"small", html: p.desc }));
+        top.appendChild(meta);
+        card.appendChild(top);
+
+        const bottom = el('div',{style:"display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px"});
+        bottom.appendChild(el('div',{html:`<div class="price">₹${p.price} / ${p.unit}</div><div class="small">Estimated fresh weight</div>`}));
+        const actions = el('div',{class:"actions"});
+        const addBtn = el('button',{class:"primary", type:"button"}, "Add");
+        addBtn.onclick = ()=> { addToCart(p.id); };
+        const info = el('a',{class:"outline", href:"#", onclick:"return false"}, "Details");
+        actions.appendChild(addBtn); actions.appendChild(info);
+        bottom.appendChild(actions);
+        card.appendChild(bottom);
+        grid.appendChild(card);
+      });
+    }
+
+    // Search + filter + sort
+    const searchInput = document.getElementById('search');
+    const catSelect = document.getElementById('category');
+    const sortSelect = document.getElementById('sort');
+
+    function applyFilters(){
+      const q = searchInput.value.trim().toLowerCase();
+      const cat = catSelect.value;
+      const sort = sortSelect.value;
+      let filtered = products.filter(p => {
+        const matchQ = q === "" || p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
+        const matchCat = cat === "" || p.cat === cat;
+        return matchQ && matchCat;
+      });
+      if(sort === "price-asc") filtered.sort((a,b)=>a.price-b.price);
+      if(sort === "price-desc") filtered.sort((a,b)=>b.price-a.price);
+      // default popular: keep original order
+      renderList(filtered);
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    catSelect.addEventListener('change', applyFilters);
+    sortSelect.addEventListener('change', applyFilters);
+
+    // Cart behavior
+    function addToCart(id){
+      cart[id] = (cart[id] || 0) + 1;
+      updateCartBadge();
+      const p = products.find(x=>x.id===id);
+      // tiny feedback
+      alert(p.name + " added to cart");
+    }
+    function updateCartBadge(){
+      const c = Object.values(cart).reduce((s,n)=>s+n,0);
+      const b = document.getElementById('cartCount');
+      if(c>0){ b.style.display="inline-block"; b.textContent = c; } else { b.style.display="none"; }
+    }
+
+    // Fake send message
+    function fakeSend(){
+      const n = document.getElementById('name').value.trim();
+      const msg = document.getElementById('msg').value.trim();
+      if(!n || !msg){ alert("Name aur message daal do"); return; }
+      document.getElementById('sentToast').style.display = 'block';
+      // clear
+      document.getElementById('name').value = '';
+      document.getElementById('phone').value = '';
+      document.getElementById('msg').value = '';
+    }
+
+    // Initial render
+    document.getElementById('year').textContent = new Date().getFullYear();
+    renderList(products);
+    updateCartBadge();
+
+    // Accessibility: allow enter to focus search
+    document.addEventListener('keydown', (e) => {
+      if(e.key === "/" && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA'){
+        e.preventDefault();
+        searchInput.focus();
+      }
+    });
+  </script>
 </body>
 </html>
