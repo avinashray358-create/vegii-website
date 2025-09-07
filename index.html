@@ -228,28 +228,16 @@
 
   <script>
     // Product data - tum isko edit kar sakte ho
-    const products = [
-      {id:1,name:"Tomato",cat:"fruit",price:30,unit:"kg",emoji:"🍅",desc:"Ripe, juicy tomatoes"},
-      {id:2,name:"Potato",cat:"root",price:28,unit:"kg",emoji:"🥔",desc:"Starchy potatoes — great for every dish"},
-      {id:3,name:"Onion",cat:"bulb",price:40,unit:"kg",emoji:"🧅",desc:"Fresh onions, pungent and crisp"},
-      {id:4,name:"Spinach (Palak)",cat:"leafy",price:22,unit:"bunch",emoji:"🥬",desc:"Tender green leaves"},
-      {id:5,name:"Cabbage",cat:"leafy",price:30,unit:"pc",emoji:"🥬",desc:"Crunchy cabbage heads"},
-      {id:6,name:"Carrot",cat:"root",price:50,unit:"kg",emoji:"🥕",desc:"Sweet orange carrots"},
-      {id:7,name:"Brinjal (Baingan)",cat:"fruit",price:36,unit:"kg",emoji:"🍆",desc:"Locally grown brinjals"},
-      {id:8,name:"Green Chilli",cat:"fruit",price:120,unit:"kg",emoji:"🌶️",desc:"Spicy green chillies"},
-      {id:9,name:"Garlic",cat:"bulb",price:280,unit:"kg",emoji:"🧄",desc:"Aromatic garlic bulbs"},
-      {id:10,name:"Cauliflower",cat:"leafy",price:55,unit:"pc",emoji:"🥦",desc:"Fresh cauliflower heads"},
-      {id:11,name:"Coriander (Dhaniya)",cat:"leafy",price:15,unit:"bunch",emoji:"🌿",desc:"Fragrant coriander"},
-      {id:12,name:"Cucumber",cat:"fruit",price:28,unit:"kg",emoji:"🥒",desc:"Crisp cucumbers"},
-      {id:13,name:"Bottle Gourd (Lauki)",cat:"fruit",price:30,unit:"kg",emoji:"🫑",desc:"Soft, watery lauki"},
-      {id:14,name:"Ridge Gourd (Tori)",cat:"fruit",price:40,unit:"kg",emoji:"🥒",desc:"Popular seasonal vegetable"},
-      {id:15,name:"Beetroot",cat:"root",price:45,unit:"kg",emoji:"🟣",desc:"Sweet and healthy beetroot"},
-      {id:16,name:"Fenugreek (Methi)",cat:"leafy",price:18,unit:"bunch",emoji:"🌿",desc:"Bitter-savory methi leaves"},
-      {id:17,name:"Ginger",cat:"root",price:220,unit:"kg",emoji:"🫚",desc:"Fresh ginger roots"},
-      {id:18,name:"Peas (Matar)",cat:"fruit",price:90,unit:"kg",emoji:"🌱",desc:"Sweet green peas"},
-      {id:19,name:"Sweet Corn",cat:"fruit",price:70,unit:"kg",emoji:"🌽",desc:"Tender sweet corn"},
-      {id:20,name:"Bottle Capsicum",cat:"fruit",price:120,unit:"kg",emoji:"🫑",desc:"Colorful capsicums"}
-    ];
+   let products = [];
+
+async function loadProducts() {
+  const res = await fetch("https://vegii-backend.onrender.com/api/products"); 
+  products = await res.json();
+  applyFilters(); // filter/search wale function ko call karo
+}
+
+loadProducts();
+
 
     // Simple cart (in-memory)
     const cart = {};
@@ -334,19 +322,32 @@
       const c = Object.values(cart).reduce((s,n)=>s+n,0);
       const b = document.getElementById('cartCount');
       if(c>0){ b.style.display="inline-block"; b.textContent = c; } else { b.style.display="none"; }
-    }
+  async function fakeSend() {
+  const n = document.getElementById('name').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const msg = document.getElementById('msg').value.trim();
 
-    // Fake send message
-    function fakeSend(){
-      const n = document.getElementById('name').value.trim();
-      const msg = document.getElementById('msg').value.trim();
-      if(!n || !msg){ alert("Name aur message daal do"); return; }
-      document.getElementById('sentToast').style.display = 'block';
-      // clear
-      document.getElementById('name').value = '';
-      document.getElementById('phone').value = '';
-      document.getElementById('msg').value = '';
-    }
+  if (!n || !msg) { 
+    alert("Name aur message daal do"); 
+    return; 
+  }
+
+  const res = await fetch("https://vegii-backend.onrender.com/api/messages", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ name: n, phone, msg })
+  });
+
+  if (res.ok) {
+    document.getElementById('sentToast').style.display = 'block';
+    document.getElementById('name').value = '';
+    document.getElementById('phone').value = '';
+    document.getElementById('msg').value = '';
+  } else {
+    alert("Error sending message, try again later!");
+  }
+}
+
 
     // Initial render
     document.getElementById('year').textContent = new Date().getFullYear();
@@ -363,4 +364,5 @@
   </script>
 </body>
 </html>
+
 
