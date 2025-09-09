@@ -22,6 +22,8 @@
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
     }
+
+    /* Header */
     header{
       padding:20px;
       display:flex;
@@ -46,31 +48,43 @@
     }
     .brand h1{margin:0;font-size:20px;line-height:1}
     .brand p{margin:0;color:var(--muted);font-size:13px}
-    .contact{text-align:right;}
+
+    /* Nav / contact */
+    .contact {
+      text-align:right;
+    }
     .contact a{display:inline-block;text-decoration:none;color:var(--accent);font-weight:600}
     .hero{
       max-width:1200px;margin:0 auto;background:transparent;padding:20px;
       display:grid;grid-template-columns:1fr;gap:18px;
     }
     .hero-card{
-      background:var(--card);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);display:flex;gap:18px;align-items:center;flex-wrap:wrap;
+      background:var(--card);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);display:flex;gap:18px;align-items:center;
+      flex-wrap:wrap;
     }
     .hero-left{flex:1;min-width:220px}
     .hero-right{width:220px;min-width:180px;text-align:center}
     .hero h2{margin:0;font-size:26px}
     .hero p{color:var(--muted);margin-top:8px}
+
     .btn{
       display:inline-block;padding:10px 14px;border-radius:12px;background:var(--accent);color:white;text-decoration:none;font-weight:700;
       box-shadow:0 6px 16px rgba(42,157,64,0.18);
     }
+
+    /* Search + filters */
     .controls{
       max-width:1200px;margin:18px auto;display:flex;gap:12px;flex-wrap:wrap;padding:0 12px;
     }
-    .search{flex:1;min-width:220px}
+    .search{
+      flex:1;min-width:220px;
+    }
     input[type="search"], select{
       width:100%;padding:12px 14px;border-radius:12px;border:1px solid #e6eef0;box-shadow:inset 0 1px 0 rgba(255,255,255,0.6);
       font-size:15px;
     }
+
+    /* Products grid */
     .grid{
       max-width:1200px;margin:8px auto 60px auto;padding:12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;
     }
@@ -88,13 +102,26 @@
       border:1px solid #e6eef0;padding:8px 10px;border-radius:10px;text-decoration:none;color:var(--muted);font-weight:700;background:transparent;
     }
     .primary{background:var(--accent);color:white;padding:8px 10px;border-radius:10px;text-decoration:none;font-weight:700}
+
+    /* Footer / contact */
     footer{max-width:1200px;margin:30px auto;padding:18px;border-radius:12px;background:linear-gradient(180deg,#fff 0%,#fbfffb 100%);box-shadow:var(--shadow)}
     .footer-grid{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start;justify-content:space-between}
     .footer-item{min-width:200px}
     .small{font-size:13px;color:var(--muted)}
-    @media (max-width:720px){.hero-card{flex-direction:column;align-items:flex-start} header{padding:12px}}
-    .cart{position:relative;display:inline-block;}
-    .cart .badge{position:absolute;top:-8px;right:-8px;background:#ff4d4f;color:white;border-radius:999px;padding:4px 7px;font-size:12px;font-weight:800;}
+
+    /* Responsive tweaks */
+    @media (max-width:720px){
+      .hero-card{flex-direction:column;align-items:flex-start}
+      header{padding:12px}
+    }
+
+    /* Tiny cart badge */
+    .cart{
+      position:relative;display:inline-block;
+    }
+    .cart .badge{
+      position:absolute;top:-8px;right:-8px;background:#ff4d4f;color:white;border-radius:999px;padding:4px 7px;font-size:12px;font-weight:800;
+    }
   </style>
 </head>
 <body>
@@ -108,6 +135,7 @@
         <p class="small">Fresh | Local | Affordable — Sasaram, Bihar</p>
       </div>
     </a>
+
     <div class="contact">
       <div class="small">Call / WhatsApp</div>
       <a href="tel:+919939337868">+91 99393 37868</a>
@@ -165,7 +193,9 @@
   </div>
 
   <!-- Products Grid -->
-  <main id="products" class="grid" aria-live="polite"></main>
+  <main id="products" class="grid" aria-live="polite">
+    <!-- JS will populate product cards here -->
+  </main>
 
   <!-- Footer / Contact -->
   <footer id="contact">
@@ -176,17 +206,19 @@
         <p style="margin-top:8px"><strong>Phone:</strong> <a href="tel:+919939337868">+91 99393 37868</a></p>
         <p><strong>Location:</strong> Sasaram, Rohtas, Bihar, India</p>
       </div>
+
       <div class="footer-item">
         <h4>Quick links</h4>
         <p class="small"><a href="#products">Products</a> · <a href="#contact">Contact Us</a> · <a href="#">Orders &amp; Delivery</a></p>
       </div>
+
       <div class="footer-item">
         <h4>Send a message</h4>
-        <form id="messageForm" onsubmit="sendMessage(); return false;" style="display:flex;flex-direction:column;gap:8px;min-width:220px;">
+        <form id="messageForm" onsubmit="return false" style="display:flex;flex-direction:column;gap:8px;min-width:220px;">
           <input id="name" placeholder="Your name" required style="padding:10px;border-radius:10px;border:1px solid #e6eef0" />
           <input id="phone" placeholder="Phone (optional)" style="padding:10px;border-radius:10px;border:1px solid #e6eef0" />
           <textarea id="msg" rows="3" placeholder="Message..." style="padding:10px;border-radius:10px;border:1px solid #e6eef0"></textarea>
-          <button class="primary">Send</button>
+          <button onclick="fakeSend()" class="primary">Send</button>
         </form>
         <div id="sentToast" style="display:none;margin-top:8px;color:green;font-weight:700">Message ready! We'll call you back soon.</div>
       </div>
@@ -195,13 +227,13 @@
   </footer>
 
   <script>
-    const backendURL = "https://vegii-backend.onrender.com";
-    const grid = document.getElementById('products');
-    const searchInput = document.getElementById('search');
-    const catSelect = document.getElementById('category');
-    const sortSelect = document.getElementById('sort');
+    // --- BACKEND URL (Tera link) ---
+    const BACKEND_URL = "https://vegii-backend.onrender.com";
+
+    // Simple cart (in-memory)
     const cart = {};
 
+    // Utilities
     function el(tag, attrs={}, children=""){
       const e = document.createElement(tag);
       for(const k in attrs){
@@ -213,20 +245,36 @@
       return e;
     }
 
+    // Render products
+    const grid = document.getElementById('products');
+    let products = [];
+
+    async function loadProducts() {
+      try {
+        const res = await fetch(`${BACKEND_URL}/api/products`);
+        if(!res.ok) throw new Error("Network response not ok");
+        products = await res.json();
+        applyFilters();
+      } catch(e) {
+        console.error("Error fetching products:", e);
+        grid.innerHTML = `<div class="card"><h3>Error loading products</h3><p class="small">Try refreshing the page.</p></div>`;
+      }
+    }
+
     function renderList(list){
       grid.innerHTML = "";
       if(list.length===0){
         const empty = el('div',{class:"card", html:`<h3>No items found</h3><p class="small">Try different search or category.</p>`});
-        grid.appendChild(empty);
-        return;
+        grid.appendChild(empty); return;
       }
       list.forEach(p => {
         const card = el('div',{class:"card"});
         const top = el('div',{style:"display:flex;align-items:center;gap:12px"});
-        top.appendChild(el('div',{class:"veg-emoji"}, p.emoji));
+        const e = el('div',{class:"veg-emoji"}, p.emoji || "🥬");
+        top.appendChild(e);
         const meta = el('div');
         meta.appendChild(el('h3',{html:p.name}));
-        meta.appendChild(el('p',{class:"small", html:p.desc}));
+        meta.appendChild(el('p',{class:"small", html: p.desc || "" }));
         top.appendChild(meta);
         card.appendChild(top);
 
@@ -239,85 +287,87 @@
         actions.appendChild(addBtn); actions.appendChild(info);
         bottom.appendChild(actions);
         card.appendChild(bottom);
-
         grid.appendChild(card);
       });
     }
 
-    function addToCart(id){
-      cart[id] = (cart[id] || 0) + 1;
-      updateCartBadge();
-      alert("Item added to cart");
-    }
+    // Search + filter + sort
+    const searchInput = document.getElementById('search');
+    const catSelect = document.getElementById('category');
+    const sortSelect = document.getElementById('sort');
 
-    function updateCartBadge(){
-      const count = Object.values(cart).reduce((s,n)=>s+n,0);
-      const badge = document.getElementById('cartCount');
-      if(count>0){ badge.style.display="inline-block"; badge.textContent=count; } else { badge.style.display="none"; }
-    }
-
-    async function fetchProducts(){
-      try{
-        const res = await fetch(`${backendURL}/products`);
-        if(!res.ok) throw new Error("Failed to fetch products");
-        const products = await res.json();
-        applyFilters(products);
-      }catch(err){
-        console.error(err);
-        grid.innerHTML = "<div class='card'><h3>Error fetching products</h3></div>";
-      }
-    }
-
-    function applyFilters(products){
+    function applyFilters(){
       const q = searchInput.value.trim().toLowerCase();
       const cat = catSelect.value;
       const sort = sortSelect.value;
-      let filtered = products.filter(p=>{
-        const matchQ = !q || p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
-        const matchCat = !cat || p.cat===cat;
+      let filtered = products.filter(p => {
+        const matchQ = q === "" || p.name.toLowerCase().includes(q) || (p.desc || "").toLowerCase().includes(q);
+        const matchCat = cat === "" || p.cat === cat;
         return matchQ && matchCat;
       });
-      if(sort==="price-asc") filtered.sort((a,b)=>a.price-b.price);
-      if(sort==="price-desc") filtered.sort((a,b)=>b.price-a.price);
+      if(sort === "price-asc") filtered.sort((a,b)=>a.price-b.price);
+      if(sort === "price-desc") filtered.sort((a,b)=>b.price-a.price);
       renderList(filtered);
     }
 
-    async function sendMessage(){
-      const name = document.getElementById('name').value.trim();
+    searchInput.addEventListener('input', applyFilters);
+    catSelect.addEventListener('change', applyFilters);
+    sortSelect.addEventListener('change', applyFilters);
+
+    // Cart behavior
+    function addToCart(id){
+      cart[id] = (cart[id] || 0) + 1;
+      updateCartBadge();
+      const p = products.find(x=>x.id===id);
+      alert((p && p.name ? p.name : "Item") + " added to cart");
+    }
+    function updateCartBadge(){
+      const c = Object.values(cart).reduce((s,n)=>s+n,0);
+      const b = document.getElementById('cartCount');
+      if(c>0){ b.style.display="inline-block"; b.textContent = c; } else { b.style.display="none"; }
+    }
+
+    // Send message to backend
+    async function fakeSend(){
+      const n = document.getElementById('name').value.trim();
       const phone = document.getElementById('phone').value.trim();
       const msg = document.getElementById('msg').value.trim();
-      if(!name || !msg){ alert("Name aur message daal do"); return; }
-      try{
-        const res = await fetch(`${backendURL}/message`, {
-          method:'POST',
-          headers:{ 'Content-Type':'application/json' },
-          body: JSON.stringify({ name, phone, message: msg })
+
+      if(!n || !msg){ alert("Name aur message daal do"); return; }
+
+      try {
+        const res = await fetch(`${BACKEND_URL}/api/messages`, {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({name: n, phone, msg})
         });
-        if(!res.ok) throw new Error("Failed to send message");
-        document.getElementById('sentToast').style.display='block';
-        document.getElementById('name').value='';
-        document.getElementById('phone').value='';
-        document.getElementById('msg').value='';
-      }catch(err){
-        alert("Message bhejna fail hua, try again");
-        console.error(err);
+
+        if(res.ok){
+          document.getElementById('sentToast').style.display = 'block';
+          document.getElementById('name').value = '';
+          document.getElementById('phone').value = '';
+          document.getElementById('msg').value = '';
+        } else {
+          alert("Error sending message, try again later!");
+        }
+      } catch(e) {
+        alert("Error connecting to backend!");
+        console.error(e);
       }
     }
 
-    // Event listeners
-    searchInput.addEventListener('input', fetchProducts);
-    catSelect.addEventListener('change', fetchProducts);
-    sortSelect.addEventListener('change', fetchProducts);
+    // Initial render
+    document.getElementById('year').textContent = new Date().getFullYear();
+    loadProducts();
+    updateCartBadge();
 
-    document.addEventListener('keydown', (e)=>{
-      if(e.key==="/" && document.activeElement.tagName!=='INPUT' && document.activeElement.tagName!=='TEXTAREA'){
+    // Accessibility: slash to focus search
+    document.addEventListener('keydown', (e) => {
+      if(e.key === "/" && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA'){
         e.preventDefault();
         searchInput.focus();
       }
     });
-
-    document.getElementById('year').textContent = new Date().getFullYear();
-    fetchProducts();
   </script>
 </body>
 </html>
